@@ -1,0 +1,7 @@
+$kind: http-request
+name: Get Vehiculos
+method: GET
+url: '{{baseUrl}}/metro/vehiculos'
+order: 4000
+description: 'Returns real-time GPS positions, next stop, destination, and passenger occupancy (carga %) of all active trams.'
+

@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface ParadaRepository extends JpaRepository<ParadaEntity, ParadaId> {
     List<ParadaEntity> findByLineaAndSentidoOrderByOrdenParadaAsc(String linea, Integer sentido);
+    List<ParadaEntity> findByOperador(String operador);
+    List<ParadaEntity> findByOperadorAndLineaAndSentidoOrderByOrdenParadaAsc(String operador, String linea, Integer sentido);
 }

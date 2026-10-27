@@ -1,0 +1,7 @@
+$kind: http-request
+name: Get Lineas
+method: GET
+url: '{{baseUrl}}/metro/lineas'
+order: 500
+description: 'Returns all Metrotenerife tram lines.'
+

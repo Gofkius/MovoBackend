@@ -106,7 +106,7 @@ public class TitsaService {
                 .collect(Collectors.toList());
     }
     public List<TitsaParada> getParadasPorLinea(String linea, int sentido) {
-        List<ParadaEntity> paradasBD = paradaRepository.findByLineaAndSentidoOrderByOrdenParadaAsc(linea, sentido);
+        List<ParadaEntity> paradasBD = paradaRepository.findByOperadorAndLineaAndSentidoOrderByOrdenParadaAsc("TITSA", linea, sentido);
 
         return paradasBD.stream().map(entidad -> {
             TitsaParada p = new TitsaParada();
@@ -121,7 +121,7 @@ public class TitsaService {
 
     private List<ParadaEntity> paradasUnicas() {
         return paradasUnicasCache.get("all", k -> List.copyOf(
-                paradaRepository.findAll().stream()
+                paradaRepository.findByOperador("TITSA").stream()
                         .collect(Collectors.toMap(ParadaEntity::getParadaId, p -> p, (p1, p2) -> p1))
                         .values()));
     }

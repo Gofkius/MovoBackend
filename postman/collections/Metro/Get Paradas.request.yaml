@@ -1,0 +1,14 @@
+$kind: http-request
+name: Get Paradas
+method: GET
+url: '{{baseUrl}}/metro/paradas?linea=1&sentido=1'
+order: 1500
+description: 'Returns stops for a given Metro line and direction (or all 25 stops if parameters are omitted).'
+queryParams:
+  - key: linea
+    value: '1'
+    description: Metro line number (1 or 2)
+  - key: sentido
+    value: '1'
+    description: Direction of travel (1 or 2)
+

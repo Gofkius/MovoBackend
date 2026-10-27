@@ -1,0 +1,17 @@
+$kind: http-request
+name: Get Cercanas
+method: GET
+url: '{{baseUrl}}/metro/cercanas?lat=28.4673&lng=-16.2557&radio=500'
+order: 3000
+description: 'Returns Metro stops near a given coordinate within a radius (in meters) along with upcoming arrivals and occupancy.'
+queryParams:
+  - key: lat
+    value: '28.4673'
+    description: Latitude
+  - key: lng
+    value: '-16.2557'
+    description: Longitude
+  - key: radio
+    value: '500'
+    description: Search radius in meters (default 500)
+

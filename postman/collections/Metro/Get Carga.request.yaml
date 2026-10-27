@@ -1,0 +1,7 @@
+$kind: http-request
+name: Get Carga
+method: GET
+url: '{{baseUrl}}/metro/carga'
+order: 5000
+description: 'Returns real-time passenger occupancy (CARGA %) for each tram vehicle and service.'
+

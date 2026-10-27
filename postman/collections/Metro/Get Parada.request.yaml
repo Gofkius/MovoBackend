@@ -1,0 +1,7 @@
+$kind: http-request
+name: Get Parada
+method: GET
+url: '{{baseUrl}}/metro/parada/INT'
+order: 2500
+description: 'Returns stop details and upcoming arrivals (with live occupancy) by 3-letter stop code (e.g. INT, HOS) or numeric stopSAE.'
+
