@@ -33,7 +33,9 @@ public class RestTemplateConfig {
      */
     private static final String[] EXTRA_CERTS = {
             "certs/sectigo-ov-r36.pem",
-            "certs/sectigo-root-r46.pem"
+            "certs/sectigo-root-r46.pem",
+            "certs/accv-rsa1-tls.pem",
+            "certs/accv-raiz1.pem"
     };
 
     @Bean
@@ -50,8 +52,8 @@ public class RestTemplateConfig {
                 super.prepareConnection(connection, httpMethod);
             }
         };
-        factory.setConnectTimeout(2000);
-        factory.setReadTimeout(4000);
+        factory.setConnectTimeout(5000);
+        factory.setReadTimeout(8000);
 
         RestTemplate restTemplate = new RestTemplate(factory);
         restTemplate.getMessageConverters().removeIf(c -> c instanceof StringHttpMessageConverter);
