@@ -355,14 +355,29 @@ public class MetroService {
     }
 
     private List<MetroLlegada> mapearLlegadas(List<MetroInfoPanel> matches, Map<String, MetroCargaVehiculoApiDTO> cargaMap) {
-        return matches.stream()
+        // Deduplicate multiple loop detections for the same route-direction-service keeping the earliest arrival
+        List<MetroInfoPanel> unicos = matches.stream()
                 .collect(Collectors.toMap(
                         p -> p.getRoute() + "-" + p.getDirection() + "-" + p.getService(),
                         p -> p,
                         (a, b) -> a.getRemainingMinutes() <= b.getRemainingMinutes() ? a : b
                 ))
                 .values().stream()
+                .toList();
+
+        // Limit to only 2 trams per direction per stop (the one coming up now and the next one in that direction)
+        Map<Integer, List<MetroInfoPanel>> porSentido = unicos.stream()
+                .collect(Collectors.groupingBy(MetroInfoPanel::getDirection));
+
+        List<MetroInfoPanel> limitados = porSentido.values().stream()
+                .flatMap(lista -> lista.stream()
+                        .sorted(Comparator.comparingInt(MetroInfoPanel::getRemainingMinutes))
+                        .limit(2)
+                )
                 .sorted(Comparator.comparingInt(MetroInfoPanel::getRemainingMinutes))
+                .toList();
+
+        return limitados.stream()
                 .map(p -> {
                     MetroCargaVehiculoApiDTO cargaDto = p.getService() != null
                             ? cargaMap.get(p.getService().trim())
