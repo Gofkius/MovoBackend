@@ -15,6 +15,7 @@ import org.movo.movobackend.repository.LineaRepository;
 import org.movo.movobackend.repository.ParadaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,9 +28,8 @@ public class MetroService {
     private static final Logger log = LoggerFactory.getLogger(MetroService.class);
     private static final String OPERADOR_METRO = "METRO";
 
-    private static final String URL_PANEL = "https://tranviaonline.metrotenerife.com/api/infoStops/infoPanel";
-    private static final String URL_VEHICLE_LOCATION = "https://tranviaonline.metrotenerife.com/api/infoStops/vehicleLocation";
-    private static final String URL_CARGA_VEHICULO = "https://tranviaonline.metrotenerife.com/api/cargaVehiculo";
+    @Value("${metro.api.base-url:https://tranviaonline.metrotenerife.com}")
+    private String metroBaseUrl;
 
     private final RestTemplate restTemplate;
     private final LineaRepository lineaRepository;
@@ -71,7 +71,7 @@ public class MetroService {
 
     private MetroInfoPanel[] descargarPanelCompleto() {
         try {
-            MetroInfoPanel[] panel = restTemplate.getForObject(URL_PANEL, MetroInfoPanel[].class);
+            MetroInfoPanel[] panel = restTemplate.getForObject(metroBaseUrl + "/api/infoStops/infoPanel", MetroInfoPanel[].class);
             return panel != null ? panel : new MetroInfoPanel[0];
         } catch (Exception e) {
             log.warn("Failed to fetch Metrotenerife infoPanel: {}", e.toString());
@@ -85,7 +85,7 @@ public class MetroService {
 
     private MetroVehicleLocationApiDTO[] descargarVehicleLocations() {
         try {
-            MetroVehicleLocationApiDTO[] locations = restTemplate.getForObject(URL_VEHICLE_LOCATION, MetroVehicleLocationApiDTO[].class);
+            MetroVehicleLocationApiDTO[] locations = restTemplate.getForObject(metroBaseUrl + "/api/infoStops/vehicleLocation", MetroVehicleLocationApiDTO[].class);
             return locations != null ? locations : new MetroVehicleLocationApiDTO[0];
         } catch (Exception e) {
             log.warn("Failed to fetch Metrotenerife vehicleLocation: {}", e.toString());
@@ -99,7 +99,7 @@ public class MetroService {
 
     private List<MetroCargaVehiculoApiDTO> descargarCargaVehiculos() {
         try {
-            MetroCargaVehiculoApiDTO[] cargas = restTemplate.getForObject(URL_CARGA_VEHICULO, MetroCargaVehiculoApiDTO[].class);
+            MetroCargaVehiculoApiDTO[] cargas = restTemplate.getForObject(metroBaseUrl + "/api/cargaVehiculo", MetroCargaVehiculoApiDTO[].class);
             return cargas != null ? Arrays.asList(cargas) : List.of();
         } catch (Exception e) {
             log.warn("Failed to fetch Metrotenerife cargaVehiculo: {}", e.toString());
